@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 18:43:13 by llaakson          #+#    #+#             */
-/*   Updated: 2024/08/24 20:59:44 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:29:52 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,41 @@ int	check_arguments(int argc, char **argv, t_node *push)
 	return (r);
 }
 
+struct node* create_node(int data)
+{
+	t_node *new;
+
+	new = malloc(sizeof(struct t_node));
+	new->data = data;
+	new->next = NULL;
+	return (*new);
+}
+
+void	make_stack(t_list *push, int a)
+{
+	struct node* new_node;
+	//t_node *last_node;
+	
+	new_node = create_node(a);
+	
+	push->next = node;
+	node->prev = push; 	
+}
+
 int	main(int argc, char		**argv)
 {
-	t_node push;
+	t_node *a;
+	//t_node *b;
 	
-	if (!check_arguments(argc, argv, &push))
+	if (!check_arguments(argc, argv, &a))
 	{	
 		ft_printf("no arguments\n");
 		exit (0);
 	}
 	ft_printf("All argmuents are numbers ! main\n");
 	ft_printf("libft working argc %d\n", argc);
+	make_stack(&a, argv[1]);
+	ft_printf("Node :%d", a->next);
+	
 	return (0);
 }
