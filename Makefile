@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SOURCES =	main.c \
+SOURCES =	push_swap2.c tools.c push.c rotate.c reverse.c swap.c \
 
 OBJECTS = $(SOURCES:%.c=%.o)
 

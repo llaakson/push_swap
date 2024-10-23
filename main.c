@@ -67,7 +67,7 @@ int	check_arguments(int argc, char **argv, t_node *push)
 	return (r);
 }
 
-struct node* create_node(int data)
+/*struct node* create_node(int data)
 {
 	t_node *new;
 
@@ -75,7 +75,7 @@ struct node* create_node(int data)
 	new->data = data;
 	new->next = NULL;
 	return (*new);
-}
+}*/
 
 void	make_stack(t_list *push, int a)
 {
