@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 18:46:01 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/23 19:35:05 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/24 20:12:31 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 # include "libft/libft.h"
 
 typedef struct s_stack_node {
+	int push_cost;
 	int	num;
-	//char **array_a;
-	//char **array_aa;
-	//int data;
-	struct s_stack_node *temp;
+	int median;
+	int position;
+	struct s_stack_node *target;
 	struct s_stack_node *next;
 	struct s_stack_node *prev;
 } t_stack;
 
+void print_list(t_stack **stack, t_stack **b); //delete
 void    make_node(t_stack **stack, int n);
 int	main(int argc, char	**argv);
 
@@ -46,5 +47,14 @@ void rotate_stack(t_stack **stack, int check);
 void reverse_stack(t_stack **stack);
 
 void push_stack(t_stack **a, t_stack **b, int s);
+
+void    short_three(t_stack **a);
+
+void    calculate_position(t_stack *stack);
+void    calculate_median(t_stack *stack);
+void    find_target(t_stack *b, t_stack *a);
+void calculate_cost_one(t_stack *a);
+void calculate_cost_combined(t_stack *a);
+void push_cheap(t_stack **a, t_stack **b);
 
 #endif

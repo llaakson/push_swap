@@ -6,38 +6,40 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/23 21:30:28 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:40:35 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	short_three(t_stack **a)
+void solver_call(t_stack **a, t_stack **b)
 {
-	int first;
-	int second;
-	int third;
-
-	first = (*a)->num;
-	second = (*a)->next->num;
-	third = (*a)->next->next->num;
-	if((first > second) && (first < third) && (second < third))
-		sa(a);
-	else if((first > second) && (first > third) && (second > third))
+	//calculate position and median here
+	calculate_median(*a);
+	calculate_median(*b);
+	calculate_position(*a);
+	calculate_position(*b);
+	
+	/*t_stack *print_node;
+	
+	print_node = (*a);
+	ft_printf("median a: ");
+	while (print_node != NULL)
 	{
-		sa(a);
-		reverse_stack(a);
+		ft_printf("%d ", print_node->median);
+		print_node = print_node->next;
 	}
-	else if((first > second) && (first > third) && (second < third))
-		rotate_stack(a,1);	
-	else if((first < second) && (first < third) && (second > third))
-	{
-		sa(a);
-		rotate_stack(a,1);
-	}	
-	else if((first < second) && (first > third) && (second > third))
-		reverse_stack(a);	
-			
+	ft_printf("\n");*/
+
+	// find taget nodes
+	find_target(*b,*a);
+	//calculate cost
+	calculate_cost_one(*a);
+	calculate_cost_one(*b);
+	calculate_cost_combined(*a);	
+	//push based on cost
+	push_cheap(a,b);
+	print_list(a,b);
 }
 void check_stack_b_mins(t_stack **b)
 {
@@ -52,7 +54,7 @@ void check_stack_b_mins(t_stack **b)
 		max = (*b)->next->num;
 		min = (*b)->num;
 	}
-	ft_printf("min %d max %d\n", min, max); 
+	//ft_printf("min %d max %d\n", min, max); 
 	if ((*b)->num == min)
 		rotate_stack(b,2); // no rb yet?
 }
@@ -62,19 +64,19 @@ void solve_over_three(t_stack **a, t_stack **b)
 	// blindly push first two b stack
 	push_stack(a, b, 1);
 	push_stack(a, b, 1);
-	//push_stack(a, b, 1);
-	// calculated cheapest push to b stack
+
+	// calculated cheapest push to b stack	
+	//check_stack_b_mins(b);
+	while (lstsize(*a) != 3)
+		solver_call(a,b);
+
+	//short three
+	short_three(a);
 	
-	check_stack_b_mins(b);
- 	
-		
-	//while (lstsize(*a) > 3)
-	//	push_stack(a, b, 1);
-	
-	
-	/*short_three(a);
+	// push b stack back to a
+
 	while (lstsize(*b) != 0)
-		push_stack(b, a, 2);*/
+		push_stack(b, a, 2);
 }
 void	make_node(t_stack **stack, int n)
 {
@@ -142,7 +144,7 @@ void	check_list_size(t_stack **stack, t_stack **b)
 	int size;
 
 	size = lstsize(*stack);
-	//ft_printf("%d ", size);
+	//ft_printf("init list size %d \n", size);
 	if (size == 2)
 		sa(stack);
 	if (size == 3)
@@ -156,7 +158,7 @@ char **make_array(int argc, char **argv)
 	char **array;
 	int i;
 
-	array = NULL;
+	array = NULL;	
 	i = 0;
 	if (argc == 2)
 	{
@@ -164,7 +166,7 @@ char **make_array(int argc, char **argv)
 		return (array);
 	}
 	else
-		array = (argv+1); // malloc this
+		array = (argv+1); // malloc thiiss
 	return (array);
 	
 }
@@ -184,7 +186,6 @@ int	main(int argc, char **argv)
 	}
 	if (argc >= 2)
 		array = make_array(argc, argv);
-		//array = ft_split(argv[1],' ');
 	if (!(is_duplicate(array)))
 	{
 		write(1,"DUP\n",4);
@@ -192,9 +193,7 @@ int	main(int argc, char **argv)
 	}
 	make_stack(&a, array);
 	if (!(is_sorted(a)))
-	{
 		check_list_size(&a, &b);
-	}
 	print_list(&a, &b);
 	//free_array(array);
 	free_list(&a);
