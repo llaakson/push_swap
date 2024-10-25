@@ -6,13 +6,13 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:24:36 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/23 13:30:18 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:04:28 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void reverse_stack(t_stack **stack)
+void reverse_stack(t_stack **stack, int check)
 {
 	t_stack *last;
 
@@ -21,8 +21,10 @@ void reverse_stack(t_stack **stack)
 	last->next = *stack;
 	(*stack)->prev = last;
 	*stack = last;
-	write(1, "rra\n", 4);
-
+	if (check == 1)
+		write(1, "rra\n", 4);
+	if (check == 2)
+		write(1, "rrb\n", 4);
 }
 	
 	

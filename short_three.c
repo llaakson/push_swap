@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:20:11 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/24 13:22:00 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:18:00 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	short_three(t_stack **a)
 	else if((first > second) && (first > third) && (second > third))
 	{
 		sa(a);
-		reverse_stack(a);
+		reverse_stack(a, 1);
 	}
 	else if((first > second) && (first > third) && (second < third))
 		rotate_stack(a,1);	
@@ -36,6 +36,5 @@ void	short_three(t_stack **a)
 		rotate_stack(a,1);
 	}	
 	else if((first < second) && (first > third) && (second > third))
-		reverse_stack(a);	
-			
+		reverse_stack(a, 1);			
 }

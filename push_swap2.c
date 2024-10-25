@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/24 21:40:35 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/25 23:06:39 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,29 @@ void solver_call(t_stack **a, t_stack **b)
 	calculate_median(*b);
 	calculate_position(*a);
 	calculate_position(*b);
-	
-	/*t_stack *print_node;
-	
-	print_node = (*a);
-	ft_printf("median a: ");
-	while (print_node != NULL)
-	{
-		ft_printf("%d ", print_node->median);
-		print_node = print_node->next;
-	}
-	ft_printf("\n");*/
 
 	// find taget nodes
 	find_target(*b,*a);
 	//calculate cost
 	calculate_cost_one(*a);
-	calculate_cost_one(*b);
+	calculate_cost_b(*b);
 	calculate_cost_combined(*a);	
+
+	// test print
+
+	/*t_stack *print_node;
+	
+	print_node = (*a);
+	ft_printf("stack a: ");
+	while (print_node != NULL)
+	{
+		ft_printf("%d ", print_node->cheap);
+		print_node = print_node->next;
+	}
+	ft_printf("\n");*/
+
 	//push based on cost
+	
 	push_cheap(a,b);
 	print_list(a,b);
 }
@@ -72,11 +76,18 @@ void solve_over_three(t_stack **a, t_stack **b)
 
 	//short three
 	short_three(a);
+	ft_printf("short three\n");
+	print_list(a,b);
 	
 	// push b stack back to a
 
-	while (lstsize(*b) != 0)
-		push_stack(b, a, 2);
+	while (lstsize(*b) != 0)	
+		solver_call_a(a,b);
+
+	t_stack *blah = find_min_num_node(*a);
+	while ((*a)->num > blah->num)
+		rotate_stack(a,1);
+	
 }
 void	make_node(t_stack **stack, int n)
 {
