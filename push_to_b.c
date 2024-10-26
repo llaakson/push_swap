@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:56:19 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/25 22:30:21 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:21:40 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	find_target(t_stack *b, t_stack *a)
 {
 	t_stack *temp_b;
 	t_stack *temp_target;
-	int target;
+	long target;
 	
 	while (a)
 	{
-		target = -2147483648;
+		target = LONG_MIN;
 		temp_b = b;
 		while (temp_b)
 		{
@@ -83,7 +83,7 @@ void	find_target(t_stack *b, t_stack *a)
 			}
 			temp_b = temp_b->next;
 		}
-		if (target == -2147483648)
+		if (target == LONG_MIN)
 			a->target = find_max_num_node(b); // biggest in b
 		else
 			a->target = temp_target;
@@ -129,20 +129,19 @@ void calculate_cost_b(t_stack *b)
 
 void calculate_cost_combined(t_stack *a)
 {
-	int cheap;
+	long cheap;
 	t_stack *temp_cheap;
 
-	cheap = 100;
+	cheap = LONG_MAX;
 	while (a)
 	{
-		//ft_printf("%p   %p \n",a->target, a);
-		ft_printf("%p   a number %d %d %d %d b number %d b push cost %d  median %d position %d TOTAL %d\n",a->target, a->num,a->push_cost,a->median, a->position, a->target->num, a->target->push_cost,a->target->median,a->target->position, (a->push_cost+a->target->push_cost));
+		//ft_printf("%p   a number %d a push cost%d median %d a position %d b number %d b push cost %d  median %d position %d TOTAL %d\n",a->target, a->num,a->push_cost,a->median, a->position, a->target->num, a->target->push_cost,a->target->median,a->target->position, (a->push_cost+a->target->push_cost));
+		
+		
 		a->total = a->target->push_cost + a->push_cost; 
-		//ft_printf("total %d \n", a->push_cost);
-		//a->cheap = 0; // siivous??
 		if (a->total < cheap)
 		{
-			if (cheap != 100)
+			if (cheap != LONG_MAX)
 				temp_cheap->cheap = 0;
 			a->cheap = 1;
 			cheap = a->total;
@@ -174,32 +173,45 @@ void push_cheap(t_stack **a, t_stack **b)
 	t_stack *node;
 
 	node = find_push_target(*a);
-	
 	if (node->target->median == 0)
 	{
 		while (node->target->push_cost != 0)
 		{
-			reverse_stack(b,2);
-			node->target->push_cost -= 1;
+			if (node->median == 0 && node->push_cost != 0)
+			{
+				reverse_stack(a,3);
+				reverse_stack(b,3);
+				node->target->push_cost -= 1;
+				node->push_cost -= 1;
+				write(1, "rrr\n", 4);
+			}
+			else
+			{
+				reverse_stack(b,2);
+				node->target->push_cost -= 1;
+			}
 		}
 	}
 	else if (node->target->median == 1)
 	{
 		while (node->target->push_cost != 0)
 		{
-			rotate_stack(b,2); // ehka vaarin
-			node->target->push_cost -= 1;
+			if (node->median == 1 && node->push_cost != 0)
+			{
+				rotate_stack(a,3);
+				rotate_stack(b,3);
+				node->target->push_cost -= 1;
+				node->push_cost -= 1;
+				write(1, "rr\n", 3);
+			}
+			else
+			{
+				rotate_stack(b,2);
+				node->target->push_cost -= 1;
+			}
 		}
 	}
 	if (node->median == 0)
-	{
-		while (node->push_cost != 0)
-		{
-			rotate_stack(a,1);
-			node->push_cost -= 1;
-		}
-	}
-	if (node->median == 1)
 	{
 		while (node->push_cost != 0)
 		{
@@ -207,17 +219,14 @@ void push_cheap(t_stack **a, t_stack **b)
 			node->push_cost -= 1;
 		}
 	}
+	if (node->median == 1)
+	{
+		while (node->push_cost != 0)
+		{
+			rotate_stack(a,1);
+			node->push_cost -= 1;
+		}
+	}
  
 	push_stack(a, b, 1);
-
-	/*if ((*a)->push_cost == 0)
-	{
-		push_stack(a, b, 1);
-		//ft_printf("pushed a to b cost 0\n");
-	}
-	else
-	{
-		push_stack(a, b, 1);
-		//ft_printf("pushed a to b cost over 0\n");
-	}*/	
 }

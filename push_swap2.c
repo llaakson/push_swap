@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/25 23:06:39 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:24:48 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void solver_call(t_stack **a, t_stack **b)
 	//push based on cost
 	
 	push_cheap(a,b);
-	print_list(a,b);
+	//print_list(a,b);
 }
 void check_stack_b_mins(t_stack **b)
 {
@@ -76,8 +76,8 @@ void solve_over_three(t_stack **a, t_stack **b)
 
 	//short three
 	short_three(a);
-	ft_printf("short three\n");
-	print_list(a,b);
+	//ft_printf("SHORT THREE\n\n");
+	//print_list(a,b);
 	
 	// push b stack back to a
 
@@ -205,7 +205,7 @@ int	main(int argc, char **argv)
 	make_stack(&a, array);
 	if (!(is_sorted(a)))
 		check_list_size(&a, &b);
-	print_list(&a, &b);
+	//print_list(&a, &b);
 	//free_array(array);
 	free_list(&a);
 

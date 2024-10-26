@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:41:08 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/25 22:53:27 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:24:15 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,27 @@ void push_cheap_b(t_stack **a, t_stack **b)
 			node->target->push_cost -= 1;
 		}
 	}
-	push_stack(b, a, 1);
+	if (node->median == 0)
+	{
+		while (node->push_cost != 0)
+		{
+			reverse_stack(b,2);
+			node->push_cost -= 1;
+		}
+	}
+	if (node->median == 1)
+	{
+		while (node->push_cost != 0)
+		{
+			rotate_stack(b,2);
+			node->push_cost -= 1;
+		}
+	}
+
+	push_stack(b, a, 2);
 	if ((*a)->num > (*a)->next->num)
 	{
-		ft_printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+		//ft_printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 		rotate_stack(a,1);
 	}
 }
@@ -49,7 +66,7 @@ t_stack *find_min_num_node(t_stack *stack)
 	biggest_node = stack;
 	//biggest_node = NULL;	
 	//biggest_node->num = -2147483648;
-	ft_printf("Starting to find the min boy\n");
+	//ft_printf("Starting to find the min boy\n");
 	while (stack)
 	{
 		if (stack->num < biggest_node->num)
@@ -58,7 +75,7 @@ t_stack *find_min_num_node(t_stack *stack)
 		}
 		stack = stack->next;
 	}
-	ft_printf("found the min boy\n");	
+	//ft_printf("found the min boy\n");	
 	return (biggest_node);
 }
 
@@ -66,11 +83,11 @@ void	find_target_b(t_stack *b, t_stack *a)
 {
 	t_stack *temp_a;
 	t_stack *temp_target;
-	int target;
+	long target;
 	
 	while (b)
 	{
-		target = 147483648;
+		target = LONG_MAX;
 		temp_a = a;
 		while (temp_a)
 		{
@@ -81,14 +98,14 @@ void	find_target_b(t_stack *b, t_stack *a)
 			}
 			temp_a = temp_a->next;
 		}
-		if (target == 147483648)
+		if (target == LONG_MAX)
 			b->target = find_min_num_node(a); // CHANGE TO MIN NOTE
 		else
 			b->target = temp_target;
 		b = b->next;
-		ft_printf("bbbbbbbbbb\n");
+		//ft_printf("bbbbbbbbbb\n");
 	}
-	ft_printf("BBBBBBBBB\n");
+	//ft_printf("BBBBBBBBB\n");
 }
 
 void solver_call_a(t_stack **a, t_stack **b)
@@ -106,10 +123,22 @@ void solver_call_a(t_stack **a, t_stack **b)
 	//calculate cost
 	calculate_cost_one(*b);
 	calculate_cost_b(*a);
-	calculate_cost_combined(*b);	
+	calculate_cost_combined(*b);
+	
+	/*t_stack *print_node;
+	
+	print_node = (*b);
+	ft_printf("cost calcualtions\n");
+	while (print_node != NULL)
+	{
+		ft_printf("%d ", print_node->cheap);
+		print_node = print_node->next;
+	}
+	ft_printf("\n");*/
+	
 
 	//push
 	
 	push_cheap_b(a,b);
-	print_list(a,b);
+	//print_list(a,b);
 }
