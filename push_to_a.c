@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:41:08 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/26 21:24:15 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:48:26 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,38 @@ void push_cheap_b(t_stack **a, t_stack **b)
 	{
 		while (node->target->push_cost != 0)
 		{
-			reverse_stack(a,1);
-			node->target->push_cost -= 1;
+			if (node->median == 0 && node->push_cost != 0)
+			{
+				reverse_stack(b,3);
+				reverse_stack(a,3);
+				node->target->push_cost -= 1;
+				node->push_cost -= 1;
+				write(1, "rrr\n", 4);
+			}
+			else
+			{
+				reverse_stack(a,1);
+				node->target->push_cost -= 1;
+			}
 		}
 	}
 	else if (node->target->median == 1)
 	{
 		while (node->target->push_cost != 0)
 		{
-			rotate_stack(a,1); // ehka vaarin
+			if (node->median == 1 && node->push_cost != 0)
+			{
+				rotate_stack(b,3);
+				rotate_stack(a,3);
+				node->target->push_cost -= 1;
+				node->push_cost -= 1;
+				write(1, "rr\n", 3);
+			}
+			else
+			{
+			rotate_stack(a,1);
 			node->target->push_cost -= 1;
+			}
 		}
 	}
 	if (node->median == 0)
@@ -55,14 +77,13 @@ void push_cheap_b(t_stack **a, t_stack **b)
 	if ((*a)->num > (*a)->next->num)
 	{
 		//ft_printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
-		rotate_stack(a,1);
+		reverse_stack(a,1); // reverse better???
 	}
 }
 
 t_stack *find_min_num_node(t_stack *stack)
 {
-	t_stack *biggest_node;
-	
+	t_stack *biggest_node;	
 	biggest_node = stack;
 	//biggest_node = NULL;	
 	//biggest_node->num = -2147483648;

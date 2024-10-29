@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:56:19 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/26 21:21:40 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:39:53 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	calculate_position(t_stack *stack)
 	{
 		stack->position = position;
 		position++;
-		//ft_printf("position %d number %d\n", stack->position, stack->num);
 		stack = stack->next;
 	}
 }
@@ -50,9 +49,6 @@ t_stack *find_max_num_node(t_stack *stack)
 	t_stack *biggest_node;
 	
 	biggest_node = stack;
-	//biggest_node = NULL;	
-	//biggest_node->num = -2147483648;
-	//ft_printf("Starting to find the big boy\n");
 	while (stack)
 	{
 		if (stack->num > biggest_node->num)
@@ -61,7 +57,6 @@ t_stack *find_max_num_node(t_stack *stack)
 		}
 		stack = stack->next;
 	}
-	//ft_printf("found the big boy\n");	
 	return (biggest_node);
 }
 void	find_target(t_stack *b, t_stack *a)
@@ -84,13 +79,11 @@ void	find_target(t_stack *b, t_stack *a)
 			temp_b = temp_b->next;
 		}
 		if (target == LONG_MIN)
-			a->target = find_max_num_node(b); // biggest in b
+			a->target = find_max_num_node(b);
 		else
 			a->target = temp_target;
 		a = a->next;
-		//ft_printf("You did it wee!!\n");
 	}
-	//ft_printf("COMPLITED\n");
 }
 
 void calculate_cost_one(t_stack *a)
@@ -107,7 +100,6 @@ void calculate_cost_one(t_stack *a)
 			a->push_cost = (list_size - a->position); 
 		a = a->next;
 	}
-	//ft_printf("COMPLITED\n");
 }
 
 void calculate_cost_b(t_stack *b)
@@ -118,13 +110,12 @@ void calculate_cost_b(t_stack *b)
 	while (b)
 	{
 		if (b->median == 1)
-			b->push_cost = b->position; // +1??
+			b->push_cost = b->position;
 
 		if (b->median == 0)
-			b->push_cost = (list_size - b->position); // why -1 works? 
+			b->push_cost = (list_size - b->position); 
 		b = b->next;
 	}
-	//ft_printf("COMPLITED\n");
 }
 
 void calculate_cost_combined(t_stack *a)
@@ -134,10 +125,7 @@ void calculate_cost_combined(t_stack *a)
 
 	cheap = LONG_MAX;
 	while (a)
-	{
-		//ft_printf("%p   a number %d a push cost%d median %d a position %d b number %d b push cost %d  median %d position %d TOTAL %d\n",a->target, a->num,a->push_cost,a->median, a->position, a->target->num, a->target->push_cost,a->target->median,a->target->position, (a->push_cost+a->target->push_cost));
-		
-		
+	{	
 		a->total = a->target->push_cost + a->push_cost; 
 		if (a->total < cheap)
 		{
@@ -227,6 +215,6 @@ void push_cheap(t_stack **a, t_stack **b)
 			node->push_cost -= 1;
 		}
 	}
- 
+	node->cheap = 0; 
 	push_stack(a, b, 1);
 }
