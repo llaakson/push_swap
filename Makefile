@@ -1,6 +1,6 @@
 NAME = push_swap
 
-SOURCES =	push_swap2.c tools.c reverse.c short_three.c push_to_b.c push_to_a.c\
+SOURCES =	push_swap.c tools.c reverse.c short_three.c free_and_find.c push_to_a.c calculate.c push_to_b.c\
 
 OBJECTS = $(SOURCES:%.c=%.o)
 

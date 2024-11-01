@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:18:25 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/30 23:26:12 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:25:38 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,41 +30,10 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-void	free_array(char **array, int argc)
+int	is_duplicate(char **array)
 {
-	int i;
-
-	i = 0;
-	//if (array == NULL)
-	//	return ;
-	if (argc == 2)
-	{
-		while (array[i])
-		{
-			free(*(array + i));
-			i++;
-		}
-		free(array);
-	}
-}
-
-void free_list(t_stack **stack)
-{
-	t_stack  *temp;
-
-	if (*stack == NULL)
-		return ;
-	while (*stack)
-	{
-		temp = (*stack)->next;
-		free(*stack);
-		*stack = temp;
-	}	
-}
-int is_duplicate(char **array)
-{
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	j = 0;
@@ -73,22 +42,19 @@ int is_duplicate(char **array)
 		while (j < i)
 		{
 			if (ft_atoi(array[i]) == ft_atoi(array[j]))
-			{	
-				//ft_printf("duplication found\n");
 				return (0);
-			}
 			j++;
-			//ft_printf("checking array\n");
 		}
 		i++;
 		j = 0;
 	}
 	return (1);
 }
+
 int	is_sorted(t_stack *a)
 {
-	t_stack *sort;
-	
+	t_stack	*sort;
+
 	sort = a;
 	while (sort->next != NULL)
 	{
@@ -99,7 +65,7 @@ int	is_sorted(t_stack *a)
 	return (1);
 }
 
-int lstsize(t_stack *stack)
+int	lstsize(t_stack	*stack)
 {
 	size_t	i;
 
