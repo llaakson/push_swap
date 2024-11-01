@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/29 18:49:24 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:28:07 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,51 +24,34 @@ void solver_call(t_stack **a, t_stack **b)
 	calculate_cost_combined(*a);	
 	push_cheap(a,b);
 }
-void check_stack_b_mins(t_stack **b)
-{
-	int min;
-	int max;
-
-	max = (*b)->num;
-	if (max > (*b)->next->num)
-		min = (*b)->next->num;
-	else
-	{
-		max = (*b)->next->num;
-		min = (*b)->num;
-	}
-	if ((*b)->num == min)
-		rotate_stack(b,2);
-}
 
 void solve_over_three(t_stack **a, t_stack **b)
 {
-	// blindly push first two b stack
-	push_stack(a, b, 1);
-	push_stack(a, b, 1);
+	while (lstsize(*a) != 3 && lstsize(*b) < 2) // what does empty list return??
+		push_stack(a, b, 1);
 	while (lstsize(*a) != 3)
 		solver_call(a,b);
 	short_three(a);
 	while (lstsize(*b) != 0)	
 		solver_call_a(a,b);
-	t_stack *blah = find_min_num_node(*a);
-	calculate_median(blah);
-	while ((*a)->num > blah->num)
+	t_stack *final = find_min_num_node(*a);
+	calculate_median(final);
+	while ((*a)->num > final->num)
 	{
-		if (blah->median == 1)
+		if (final->median == 1)
 			rotate_stack(a,1);
-		else if (blah->median == 0)
+		else if (final->median == 0)
 			reverse_stack(a,1);
 	}
 }
-void	make_node(t_stack **stack, int n)
+int	make_node(t_stack **stack, int n)
 {
 	t_stack *node;
 	t_stack *last_node;
 
 	node = malloc(sizeof(t_stack));
-	if (!(node))
-		return ;
+	if (node == NULL)
+		return (0);
 	node->next = NULL;
 	node->num = n;
 	if (!(*stack))
@@ -82,44 +65,64 @@ void	make_node(t_stack **stack, int n)
 		last_node->next = node;
 		node->prev = last_node;
 	}
+	return (1);
+}
+int ft_isnumber(int i, int argc, char **array)
+{
+		int j;
+
+		j = 0;
+		if (array[i][j] == '-' || array[i][j] == '+')
+			j++;
+		if (array[i][j] == '\0')
+		{
+			write(2, "EEror\n", 6);
+			free_array(array,argc);
+			return (0);
+		}
+		while (array[i][j] != '\0')
+		{
+			if (!(ft_isdigit(array[i][j])))
+			{
+				write(2, "EEror\n", 6);
+				free_array(array,argc);
+				return (0);
+			}
+			j++;
+		}
+		return (1);
 }
 
-void	make_stack(t_stack **a, char **array)
+void	make_stack(t_stack **a, char **array, int argc)
 {
-	int n; 
+	long n; 
 	int i;
 
 	i = 0;
 	while (array[i])
 	{
-		n = ft_atoi(array[i]);
-		make_node(a, n);
+		if (!(ft_isnumber(i,argc,array)))
+		{
+			free_list(a);
+			exit (1);
+		}
+		n = ft_atol(array[i]);
+		if (n < INT_MIN || n > INT_MAX)
+		{
+			write(2, "NUM\n", 4);
+			free_array(array,argc);
+			free_list(a);
+			exit (1);
+		}
+		if (!(make_node(a, (int)n)))
+		{
+			write(2, "AAA\n", 4);
+			free_array(array,argc);
+			free_list(a);
+			exit (1);
+		}	
 		i++;
-	}
-	
-}
-
-void print_list(t_stack **stack, t_stack **b)
-{
-	t_stack *print_node;
-	t_stack *print_b;
-	
-	print_node = (*stack);
-	ft_printf("stack a: ");
-	while (print_node != NULL)
-	{
-		ft_printf("%d ", print_node->num);
-		print_node = print_node->next;
-	}
-	ft_printf("\n");
-	print_b = (*b);
-	ft_printf("stack b: ");
-	while (print_b != NULL)
-	{
-		ft_printf("%d ", print_b->num);
-		print_b = print_b->next;
-	}
-	ft_printf("\n");	
+	}	
 }
 
 void	check_list_size(t_stack **stack, t_stack **b)
@@ -128,7 +131,7 @@ void	check_list_size(t_stack **stack, t_stack **b)
 
 	size = lstsize(*stack);
 	if (size == 2)
-		sa(stack);
+		swap_stack(stack,1);
 	if (size == 3)
 		short_three(stack);
 	if (size > 3)
@@ -143,8 +146,10 @@ char **make_array(int argc, char **argv)
 	array = NULL;	
 	i = 0;
 	if (argc == 2)
-	{
+	{ 
 		array = ft_split(argv[1],' ');
+		if (array == NULL)
+			exit(1);
 		return (array);
 	}
 	else
@@ -170,14 +175,15 @@ int	main(int argc, char **argv)
 		array = make_array(argc, argv);
 	if (!(is_duplicate(array)))
 	{
-		write(2,"Error\n",6);
+		write(2,"ERror\n",6);
+		free_array(array, argc);
 		return (1);
 	}
-	make_stack(&a, array);
+	make_stack(&a, array,argc);
 	if (!(is_sorted(a)))
 		check_list_size(&a, &b);
 	//print_list(&a, &b);
-	//free_array(array);
+	free_array(array, argc);
 	free_list(&a);
 
 	return (0);

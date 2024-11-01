@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 18:46:01 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/25 23:07:12 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/01 13:24:07 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,17 @@ typedef struct s_stack_node {
 } t_stack;
 
 void print_list(t_stack **stack, t_stack **b); //delete
-void    make_node(t_stack **stack, int n);
+int    make_node(t_stack **stack, int n);
 int	main(int argc, char	**argv);
 
-void    free_array(char **array);
+void    free_array(char **array, int argc);
 void free_list(t_stack **stack);
 int is_duplicate(char **array);
 int is_sorted(t_stack *a);
 int lstsize(t_stack *stack);
 t_stack *find_last(t_stack *stack);
 
-void    swap_stack(t_stack **stack);
-void sa(t_stack **a);
-void sb(t_stack **b);
-void ss(t_stack **a, t_stack **b);
+void    swap_stack(t_stack **stack, int check);
 
 void solver_call_a(t_stack **a, t_stack **b);
 
@@ -50,7 +47,7 @@ void rotate_stack(t_stack **stack, int check);
 
 void reverse_stack(t_stack **stack, int check);
 
-void push_stack(t_stack **a, t_stack **b, int s);
+void push_stack(t_stack **a, t_stack **b, int check);
 
 void    short_three(t_stack **a);
 
@@ -65,5 +62,7 @@ void calculate_cost_combined(t_stack *a);
 void push_cheap(t_stack **a, t_stack **b);
 
 t_stack *find_min_num_node(t_stack *stack);
+
+long ft_atol(const char *str);
 
 #endif

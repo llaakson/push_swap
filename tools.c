@@ -6,29 +6,54 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:18:25 by llaakson          #+#    #+#             */
-/*   Updated: 2024/10/21 19:07:42 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:26:12 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_array(char **array)
+long	ft_atol(const char *str)
+{
+	int		sign;
+	long	result;
+
+	sign = 1;
+	result = 0;
+	if (*str == '-' || *str == '+' )
+	{
+		if (*str == '-')
+			sign = -sign;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+		result = result * 10 + *str++ - 48;
+	return (result * sign);
+}
+
+void	free_array(char **array, int argc)
 {
 	int i;
 
 	i = 0;
-	while (array[i])
+	//if (array == NULL)
+	//	return ;
+	if (argc == 2)
 	{
-		free(*(array + i));
-		i++;
+		while (array[i])
+		{
+			free(*(array + i));
+			i++;
+		}
+		free(array);
 	}
-	free(array);
 }
 
 void free_list(t_stack **stack)
 {
 	t_stack  *temp;
 
+	if (*stack == NULL)
+		return ;
 	while (*stack)
 	{
 		temp = (*stack)->next;
