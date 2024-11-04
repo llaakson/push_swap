@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 18:28:55 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 18:29:00 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:44:30 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,12 @@ void	free_list(t_stack **stack)
 		free(*stack);
 		*stack = temp;
 	}	
+}
+
+void	stack_error(t_stack **a, char **array, int argc)
+{
+	write(2, "Error\n", 6);
+	free_list(a);
+	free_array(array, argc);
+	exit (1);
 }

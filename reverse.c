@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:24:36 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 13:36:20 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:25:48 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	rotate_stack(t_stack **stack, int check)
 {
 	t_stack	*last;
 
+	if (!*stack || !(*stack)->next)
+		return ;
 	last = find_last(*stack);
 	last->next = *stack;
 	*stack = (*stack)->next;
@@ -47,8 +49,9 @@ void	rotate_stack(t_stack **stack, int check)
 }
 
 void	swap_stack(t_stack **stack, int check)
-
 {
+	if (!*stack)
+		return ;
 	*stack = (*stack)->next;
 	(*stack)->prev->prev = *stack;
 	(*stack)->prev->next = (*stack)->next;
@@ -66,6 +69,8 @@ void	push_stack(t_stack **a, t_stack **b, int check)
 {
 	t_stack	*temp;
 
+	if (!*a)
+		return ;
 	temp = *a;
 	*a = (*a)->next;
 	if (*a)

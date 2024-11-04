@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 19:06:40 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:59:34 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	make_node(t_stack **stack, int n)
 		return (0);
 	node->next = NULL;
 	node->num = n;
+	if (!(is_duplicate(*stack, node)))
+	{
+		free(node);
+		return (0);
+	}
 	if (!(*stack))
 	{
 		*stack = node;
@@ -36,30 +41,22 @@ int	make_node(t_stack **stack, int n)
 	return (1);
 }
 
-int	ft_isnumber(int i, int argc, char **array)
+int	ft_isnumber(int i, char **array)
 {
-		int j;
+	int	j;
 
-		j = 0;
-		if (array[i][j] == '-' || array[i][j] == '+')
-			j++;
-		if (array[i][j] == '\0')
-		{
-			write(2, "EEror\n", 6);
-			free_array(array,argc);
+	j = 0;
+	if (array[i][j] == '-' || array[i][j] == '+')
+		j++;
+	if (array[i][j] == '\0')
+		return (0);
+	while (array[i][j] != '\0')
+	{
+		if (!(ft_isdigit(array[i][j])))
 			return (0);
-		}
-		while (array[i][j] != '\0')
-		{
-			if (!(ft_isdigit(array[i][j])))
-			{
-				write(2, "EEror\n", 6);
-				free_array(array,argc);
-				return (0);
-			}
-			j++;
-		}
-		return (1);
+		j++;
+	}
+	return (1);
 }
 
 void	make_stack(t_stack **a, char **array, int argc)
@@ -70,25 +67,13 @@ void	make_stack(t_stack **a, char **array, int argc)
 	i = 0;
 	while (array[i])
 	{
-		if (!(ft_isnumber(i, argc, array)))
-		{
-			free_list(a);
-			exit (1);
-		}
+		if (!(ft_isnumber(i, array)))
+			stack_error(a, array, argc);
 		n = ft_atol(array[i]);
 		if (n < INT_MIN || n > INT_MAX)
-		{
-			write(2, "EEror\n", 6);
-			free_array(array, argc);
-			free_list(a);
-			exit (1);
-		}
+			stack_error(a, array, argc);
 		if (!(make_node(a, (int)n)))
-		{
-			free_array(array, argc);
-			free_list(a);
-			exit (1);
-		}	
+			stack_error(a, array, argc);
 		i++;
 	}	
 }
@@ -103,10 +88,16 @@ char	**make_array(int argc, char **argv)
 	if (argc == 2)
 	{
 		if (argv[1][0] == '\0')
+		{
+			write(2, "Error\n", 6);
 			exit(1);
+		}
 		array = ft_split(argv[1], ' ');
 		if (array == NULL)
+		{
+			write(2, "Error\n", 6);
 			exit(1);
+		}
 		return (array);
 	}
 	else
@@ -127,12 +118,6 @@ int	main(int argc, char **argv)
 		return (0);
 	if (argc >= 2)
 		array = make_array(argc, argv);
-	if (!(is_duplicate(array)))
-	{
-		write(2, "Error\n", 6);
-		free_array(array, argc);
-		return (1);
-	}
 	make_stack(&a, array, argc);
 	if (!(is_sorted(a)))
 		check_list_size(&a, &b);

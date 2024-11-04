@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:20:11 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 18:11:26 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/04 14:40:28 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 void	short_three(t_stack **a)
 {
-	int first;
-	int second;
-	int third;
+	int	first;
+	int	second;
+	int	third;
 
 	first = (*a)->num;
 	second = (*a)->next->num;
 	third = (*a)->next->next->num;
-	if((first > second) && (first < third) && (second < third))
-		swap_stack(a,1);
-	else if((first > second) && (first > third) && (second > third))
+	if ((first > second) && (first < third) && (second < third))
+		swap_stack(a, 1);
+	else if ((first > second) && (first > third) && (second > third))
 	{
-		swap_stack(a,1);
+		swap_stack(a, 1);
 		reverse_stack(a, 1);
 	}
-	else if((first > second) && (first > third) && (second < third))
-		rotate_stack(a,1);	
-	else if((first < second) && (first < third) && (second > third))
+	else if ((first > second) && (first > third) && (second < third))
+		rotate_stack(a, 1);
+	else if ((first < second) && (first < third) && (second > third))
 	{
-		swap_stack(a,1);
-		rotate_stack(a,1);
-	}	
-	else if((first < second) && (first > third) && (second > third))
-		reverse_stack(a, 1);			
+		swap_stack(a, 1);
+		rotate_stack(a, 1);
+	}
+	else if ((first < second) && (first > third) && (second > third))
+		reverse_stack(a, 1);
 }
 
 void	solver_call_a(t_stack **a, t_stack **b)
@@ -69,7 +69,7 @@ void	solve_over_three(t_stack **a, t_stack **b)
 {
 	t_stack	*final;
 
-	while (lstsize(*a) != 3 && lstsize(*b) < 2) // what does empty list return??
+	while (lstsize(*a) != 3 && lstsize(*b) < 2)
 		push_stack(a, b, 1);
 	while (lstsize(*a) != 3)
 		solver_call(a, b);

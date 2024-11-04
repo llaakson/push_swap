@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:18:25 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 18:25:38 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:46:12 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,13 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-int	is_duplicate(char **array)
+int	is_duplicate(t_stack *stack, t_stack *node)
 {
-	int	i;
-	int	j;
-
-	i = 1;
-	j = 0;
-	while (array[i] != NULL)
+	while (stack)
 	{
-		while (j < i)
-		{
-			if (ft_atoi(array[i]) == ft_atoi(array[j]))
-				return (0);
-			j++;
-		}
-		i++;
-		j = 0;
+		if (node->num == stack->num)
+			return (0);
+		stack = stack->next;
 	}
 	return (1);
 }
