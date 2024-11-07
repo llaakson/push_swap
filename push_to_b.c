@@ -6,13 +6,13 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:58:54 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/04 14:44:22 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:57:09 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	push_cheap_b(t_stack **a, t_stack **b, t_stack *node)
+static void	push_cheap_b(t_stack **a, t_stack **b, t_stack *node)
 {
 	if (node->median == 0)
 	{
@@ -34,7 +34,7 @@ void	push_cheap_b(t_stack **a, t_stack **b, t_stack *node)
 	push_stack(a, b, 1);
 }
 
-void	check_rotation_b(t_stack **a, t_stack **b, t_stack *node)
+static void	check_rotation_b(t_stack **a, t_stack **b, t_stack *node)
 {
 	if (node->target->median == 1)
 	{

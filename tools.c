@@ -6,13 +6,13 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:18:25 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/04 13:46:12 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:44:16 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-long	ft_atol(const char *str)
+long	ft_long_atoi(const char *str)
 {
 	int		sign;
 	long	result;

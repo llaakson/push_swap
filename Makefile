@@ -12,9 +12,9 @@ INCLUDES = -I ./libft
 
 LIBFT_FLAGS = -L ./libft -lft
 
-all: $(LIBFT) $(NAME)	
+all: LIBFT $(NAME)	
 
-$(LIBFT):
+LIBFT:
 	make -C libft
 
 .c.o:
@@ -33,4 +33,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re LIBFT

@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 18:46:01 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/04 15:24:55 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:45:00 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_stack_node {
 
 int		main(int argc, char	**argv);
 
-long	ft_atol(const char *str);
+long	ft_long_atoi(const char *str);
 int		is_duplicate(t_stack *stack, t_stack *node);
 int		is_sorted(t_stack *a);
 int		lstsize(t_stack *stack);

@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 13:42:47 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/01 17:50:13 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:17:51 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ void	calculate_cost_combined(t_stack *a)
 	while (a)
 	{	
 		a->total = a->target->push_cost + a->push_cost;
+		if (a->target->median == a->median)
+		{
+			while ((a->total > a->target->push_cost)
+				&& (a->total > a->push_cost))
+				a->total -= 1;
+		}
 		if (a->total < check)
 		{
 			if (check != LONG_MAX)

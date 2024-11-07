@@ -6,13 +6,13 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/04 13:59:34 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:32:59 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	make_node(t_stack **stack, int n)
+static int	make_node(t_stack **stack, int n)
 {
 	t_stack	*node;
 	t_stack	*last_node;
@@ -41,7 +41,7 @@ int	make_node(t_stack **stack, int n)
 	return (1);
 }
 
-int	ft_isnumber(int i, char **array)
+static int	ft_isnumber(int i, char **array)
 {
 	int	j;
 
@@ -59,7 +59,7 @@ int	ft_isnumber(int i, char **array)
 	return (1);
 }
 
-void	make_stack(t_stack **a, char **array, int argc)
+static void	make_stack(t_stack **a, char **array, int argc)
 {
 	long	n;
 	int		i;
@@ -69,7 +69,7 @@ void	make_stack(t_stack **a, char **array, int argc)
 	{
 		if (!(ft_isnumber(i, array)))
 			stack_error(a, array, argc);
-		n = ft_atol(array[i]);
+		n = ft_long_atoi(array[i]);
 		if (n < INT_MIN || n > INT_MAX)
 			stack_error(a, array, argc);
 		if (!(make_node(a, (int)n)))
@@ -78,7 +78,7 @@ void	make_stack(t_stack **a, char **array, int argc)
 	}	
 }
 
-char	**make_array(int argc, char **argv)
+static char	**make_array(int argc, char **argv)
 {	
 	char	**array;
 	int		i;
@@ -115,9 +115,11 @@ int	main(int argc, char **argv)
 	b = NULL;
 	array = NULL;
 	if (argc < 2)
-		return (0);
+		return (1);
 	if (argc >= 2)
 		array = make_array(argc, argv);
+	if (array == NULL || array[0] == NULL)
+		stack_error(&a, array, argc);
 	make_stack(&a, array, argc);
 	if (!(is_sorted(a)))
 		check_list_size(&a, &b);

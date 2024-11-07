@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:20:11 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/04 14:40:28 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:27:59 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	short_three(t_stack **a)
 		reverse_stack(a, 1);
 }
 
-void	solver_call_a(t_stack **a, t_stack **b)
+static void	solver_call_a(t_stack **a, t_stack **b)
 {
 	calculate_median(*a);
 	calculate_median(*b);
@@ -52,7 +52,7 @@ void	solver_call_a(t_stack **a, t_stack **b)
 	check_reverse_a(a, b);
 }
 
-void	solver_call(t_stack **a, t_stack **b)
+static void	solver_call(t_stack **a, t_stack **b)
 {
 	calculate_median(*a);
 	calculate_median(*b);
@@ -65,7 +65,7 @@ void	solver_call(t_stack **a, t_stack **b)
 	check_reverse_b(a, b);
 }
 
-void	solve_over_three(t_stack **a, t_stack **b)
+static void	solve_over_three(t_stack **a, t_stack **b)
 {
 	t_stack	*final;
 
