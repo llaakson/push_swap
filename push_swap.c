@@ -6,7 +6,7 @@
 /*   By: llaakson <llaakson@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 17:23:51 by llaakson          #+#    #+#             */
-/*   Updated: 2024/11/07 19:32:59 by llaakson         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:59:09 by llaakson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,8 @@ static void	make_stack(t_stack **a, char **array, int argc)
 static char	**make_array(int argc, char **argv)
 {	
 	char	**array;
-	int		i;
 
 	array = NULL;
-	i = 0;
 	if (argc == 2)
 	{
 		if (argv[1][0] == '\0')
